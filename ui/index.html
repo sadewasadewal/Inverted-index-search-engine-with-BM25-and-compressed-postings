@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lexicon — Search Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #111827;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding: 48px 20px;
+    }
+
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f172a;
+    }
+
+    .badge-lab {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .subtitle code {
+      background: #f8fafc;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 8px;
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      width: 17px;
+      height: 17px;
+      color: #94a3b8;
+      pointer-events: none;
+    }
+
+    input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px 0 40px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #0f172a;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.15s ease-in-out;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    input:focus {
+      border-color: #0f172a;
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+    }
+
+    button {
+      height: 44px;
+      padding: 0 20px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      color: #ffffff;
+      background: #0f172a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      background: #334155;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .quick-queries {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+
+    .quick-label {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-right: 4px;
+    }
+
+    .chip {
+      background: #ffffff;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .chip:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #cbd5e1;
+    }
+
+    .results-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #94a3b8;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 16px;
+    }
+
+    #hits {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hit-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px 18px;
+      background: #ffffff;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .hit-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .hit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+      gap: 12px;
+    }
+
+    .hit-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .score-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: #0369a1;
+      background: #f0f9ff;
+      border: 1px solid #e0f2fe;
+      padding: 2px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .hit-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .hit-path {
+      font-family: 'JetBrains Mono', monospace;
+      color: #475569;
+      background: #f8fafc;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #f1f5f9;
+    }
+
+    .why-tags {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .why-tag {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #94a3b8;
+      font-size: 14px;
+      border: 1px dashed #e2e8f0;
+      border-radius: 8px;
+    }
+
+    .error-card {
+      border: 1px solid #fecaca;
+      background: #fef2f2;
+      color: #991b1b;
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .error-card a {
+      color: #b91c1c;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">
+      <h1>Lexicon</h1>
+      <span class="badge-lab">Inverted Index Lab</span>
+    </div>
+    <p class="subtitle">
+      Bare terms are <code>AND</code>, <code>OR</code> splits alternatives, <code>-term</code> excludes, and <code>"quotes"</code> match adjacent phrases. Ranked with <strong>BM25</strong>.
+    </p>
+
+    <form id="f" class="search-box">
+      <div class="input-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input id="q" type="text" autocomplete="off" spellcheck="false" value='"commit index"' placeholder="Search documents..." />
+      </div>
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="quick-queries">
+      <span class="quick-label">Try:</span>
+      <button type="button" class="chip" onclick="setQuery('&quot;commit index&quot;')">"commit index"</button>
+      <button type="button" class="chip" onclick="setQuery('postings compression')">postings compression</button>
+      <button type="button" class="chip" onclick="setQuery('election OR bm25')">election OR bm25</button>
+      <button type="button" class="chip" onclick="setQuery('postings -elasticsearch')">postings -elasticsearch</button>
+      <button type="button" class="chip" onclick="setQuery('leader')">leader</button>
+    </div>
+
+    <div class="results-meta">
+      <span id="hit-count">Results</span>
+      <span id="timing"></span>
+    </div>
+
+    <ul id="hits"></ul>
+  </main>
+
+  <script>
+    const apiBase = window.location.port === "8787" ? "" : "http://127.0.0.1:8787";
+
+    const setQuery = (query) => {
+      document.getElementById("q").value = query;
+      run(query);
+    };
+
+    const run = async (q) => {
+      const hitsEl = document.getElementById("hits");
+      const countEl = document.getElementById("hit-count");
+      const timingEl = document.getElementById("timing");
+
+      if (!q.trim()) {
+        hitsEl.innerHTML = "<li class='empty-state'>Type a query to search the inverted index.</li>";
+        countEl.textContent = "0 results";
+        timingEl.textContent = "";
+        return;
+      }
+
+      const t0 = performance.now();
+      try {
+        const res = await fetch(apiBase + "/search?q=" + encodeURIComponent(q));
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const hits = await res.json();
+        const duration = (performance.now() - t0).toFixed(1);
+
+        countEl.textContent = (hits ? hits.length : 0) + " result" + (hits && hits.length === 1 ? "" : "s");
+        timingEl.textContent = duration + " ms";
+
+        if (!hits || hits.length === 0) {
+          hitsEl.innerHTML = "<li class='empty-state'>No documents matched your query.</li>";
+          return;
+        }
+
+        hitsEl.innerHTML = hits.map(h => {
+          const tags = (h.why || "").split(",").filter(Boolean).map(w => `<span class="why-tag">${w}</span>`).join(" ");
+          return `
+            <li class="hit-card">
+              <div class="hit-header">
+                <span class="hit-title">${h.title}</span>
+                <span class="score-badge" title="Okapi BM25 Score">BM25 ${h.score.toFixed(3)}</span>
+              </div>
+              <div class="hit-meta">
+                <span class="hit-path">${h.path}</span>
+                ${tags ? `<span class="why-tags">matched: ${tags}</span>` : ""}
+              </div>
+            </li>
+          `;
+        }).join("");
+      } catch (err) {
+        countEl.textContent = "Error";
+        timingEl.textContent = "";
+        hitsEl.innerHTML = `
+          <li class="error-card">
+            <strong>Could not reach search backend</strong> at <code>${apiBase || window.location.origin}</code>.<br>
+            Please make sure the server is running: <code>go run ./cmd/lexicon serve -index index.bin -addr 127.0.0.1:8787</code><br>
+            Or visit the backend host directly: <a href="http://127.0.0.1:8787">http://127.0.0.1:8787</a>.
+          </li>
+        `;
+      }
+    };
+
+    document.getElementById("f").onsubmit = (e) => {
+      e.preventDefault();
+      run(document.getElementById("q").value);
+    };
+
+    // Initial search
+    run(document.getElementById("q").value);
+  </script>
+</body>
+</html>

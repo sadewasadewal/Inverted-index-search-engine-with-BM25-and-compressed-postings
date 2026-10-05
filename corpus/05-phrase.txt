@@ -1,0 +1,2 @@
+Phrase on the commit index
+The commit index advances only after the match index reaches a majority. Phrase search requires the two tokens in adjacent positions, not merely the same document.

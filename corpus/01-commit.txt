@@ -1,0 +1,2 @@
+Raft commit rule
+A leader commits an entry only when a majority matches the commit index and the entry is from the current term. The commit index is not a wall clock. Followers learn the commit index from AppendEntries.

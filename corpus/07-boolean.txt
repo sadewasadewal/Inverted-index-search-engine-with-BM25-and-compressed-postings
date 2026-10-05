@@ -1,0 +1,2 @@
+Boolean operators
+An AND query intersects postings. An OR query unions the alternatives and keeps the better score. A minus term excludes a document even if the other terms match.

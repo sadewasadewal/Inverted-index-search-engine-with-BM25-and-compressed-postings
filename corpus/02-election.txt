@@ -1,0 +1,2 @@
+Election timeout
+Leader election uses a randomized timeout. A follower votes once per term and only for a candidate whose log is at least as up to date. Two leaders in one term are a bug.

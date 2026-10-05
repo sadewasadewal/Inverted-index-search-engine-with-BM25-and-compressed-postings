@@ -1,0 +1,2 @@
+BM25 length normalization
+BM25 downweights a long document that mentions a term once. A short document that repeats a term should outrank a long disk buffer note. Ranking is not the same thing as a boolean filter.

@@ -1,0 +1,2 @@
+What this lab is not
+This is not a crawler, not a vector database, and not a replacement for Lucene. The point is the inverted index, the compressed postings, and a ranking function you can read.

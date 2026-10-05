@@ -1,0 +1,2 @@
+Hosted search is not the index
+Calling a hosted search cluster is not the same as building postings compression. Elasticsearch will happily hide the postings list. This note uses the word elasticsearch so a NOT query can drop it.

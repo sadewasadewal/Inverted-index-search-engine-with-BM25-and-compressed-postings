@@ -1,0 +1,2 @@
+Postings and skip pointers
+Delta encoded postings and skip pointers cut the size of an inverted index. A cursor seeks to a docID by jumping a block whose last doc is behind the target. BM25 then ranks the survivors. bm25 bm25.
