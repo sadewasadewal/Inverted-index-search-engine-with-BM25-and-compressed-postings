@@ -1,4 +1,4 @@
-# 🔍 Lexicon — Inverted Index Search Engine Lab
+# Inverted-index search engine with BM25 and compressed postings
 
 Lexicon is a lightweight, dependency-free full-text search engine and information retrieval lab written from scratch in Go. It demonstrates how modern search engines (like Lucene, Elasticsearch, and Vespa) actually work under the hood: converting text into token postings, delta-compressing them with skip lists, performing fast multi-term intersection, and ranking results with **BM25**.
 
